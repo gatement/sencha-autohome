@@ -7,10 +7,12 @@ Ext.application({
 	],
 
 	views: [
-		'Main'
+		'Main',
+		'Login'
 	],
 
 	controllers: [
+		'Login',
 		'home.Arduino', 
 		'home.Windows', 
 		'home.Linux'
@@ -23,14 +25,24 @@ Ext.application({
 	}
 });
 
+var SessionKey = 'usr_sid';
+var sessionVal = null;
 var MyWebSocket = null;
 var myWebSocket = null;
-var WebSocketUrl = "wss://tools.johnson.uicp.net/device/socket";
+var GetUserSessionUrl = 'http://tp.wolf.com:8080/user/session/jsonp';
+var WebSocketUrl = "ws://tp.wolf.com:8080/device/socket";
 
-function my_launch()
+function login_success(sessionId)
 {
-	//socket_init();
-	//socket_connect();
+	window.sessionVal = sessionId;
+
+	Ext.ComponentQuery.query('card_login')[0].destroy();
+	Ext.Viewport.add({
+		xclass: 'Autohome.view.Main' 
+	});
+	
+	socket_init();
+	socket_connect();
 }
 
 //============ web socket operations ===========================================================
@@ -38,7 +50,7 @@ function update_socket()
 {
 	var msg = {
 		cmd: "update_socket",
-		sid: $.cookie(this.sessionCookieId),
+		sid: window.sessionVal,
 		data: ""
 	};
 	this.socket_send_msg(msg);
@@ -53,12 +65,47 @@ function update_socket_error(data)
 	Ext.Msg.alert(data);
 }
 
+function list_devices()
+{
+	var msg = {
+		cmd: "list_devices",
+		sid: window.sessionVal,
+		data: ""
+	};
+	this.socket_send_msg(msg);
+}
+
+function list_devices_success(data) 
+{
+	debugger;
+	for(var i=0; i< data.length; i++)
+	{
+		switch(data[i].type)
+		{
+			case "arduino":
+				update_arduino(data[i]);
+				break;
+			case "windows":
+				update_windows(data[i]);
+				break;
+			case "linux":
+				update_linux(data[i]);
+				break;
+		}
+	}
+}
+
+function list_devices_error(data) 
+{
+	Ext.Msg.alert(data);
+}
+
 //============ web socket ======================================================================
 function socket_init()
 {
-	if (window.WebSocket) MyWebSocket = window.WebSocket;
-	if (!MyWebSocket && window.MozWebSocket) MyWebSocket = window.MozWebSocket;
-	if (!MyWebSocket)
+	if (window.WebSocket) window.MyWebSocket = window.WebSocket;
+	if (!window.MyWebSocket && window.MozWebSocket) window.MyWebSocket = window.MozWebSocket;
+	if (!window.MyWebSocket)
 	{
 		Ext.Msg.alert("Your browser is not supported. Please use Firefox or Google Chrome.");
 	}
@@ -105,7 +152,7 @@ function socket_connect()
 		window.setTimeout(function(){socket_connect();}, 6000);
 	};
 	
-	myWebSocket = new MyWebSocket(WebSocketUrl);
+	myWebSocket = new window.MyWebSocket(WebSocketUrl);
 	myWebSocket.onopen = socket_on_open;
 	myWebSocket.onmessage = socket_on_message;
 	myWebSocket.onclose = socket_on_close;

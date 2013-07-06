@@ -10,12 +10,8 @@ Ext.define('Autohome.view.Main', {
 			docked: 'bottom',
 		},
 		items: [
-			{ 
-				xtype: 'card_home'
-			},
-			{ 
-				xtype: 'card_settings'
-			}
+			{ xtype: 'card_home' },
+			{ xtype: 'card_settings' }
 		]	
 	}
 })
