@@ -1,27 +1,20 @@
 Ext.application({
-	name: 'Sencha',
+	name: "Controller",
 
-launch: function() {
-	Ext.create("Ext.tab.Panel", {
-		fullscreen: true,
-	tabBarPosition: 'bottom',
+	views: ['Main'],
+	controllers: ['home.Controller'],
 
-	items: [
-	{
-		title: 'Home',
-	iconCls: 'home',
-	cls: 'lgh',
+	launch: function() {
+		Ext.Viewport.add({
+			xclass: 'Controller.view.Main' 
+		});
 
-	html: [
-		'<img src="http://staging.sencha.com/img/sencha.png" />',
-	'<h1>Welcome to Sencha Touch</h1>',
-	"<p>You're creating the Getting Started app. This demonstrates how ",
-	"to use tabs, lists, and forms to create a simple app.</p>",
-	'<h2>Sencha Touch</h2>'
-		].join("")
+		my_launch();
 	}
-	]
-	});
-}
 });
 
+
+function my_launch()
+{
+	//Ext.Msg.alert('launch');		
+}
