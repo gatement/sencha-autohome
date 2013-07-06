@@ -1,24 +1,21 @@
-Ext.define('Controller.view.Main', {
+Ext.define('Autohome.view.Main', {
 	extend: 'Ext.tab.Panel',
 	requires: [
-		'Controller.view.Home',
-		'Controller.view.Settings'
+		'Autohome.view.Home',
+		'Autohome.view.Settings'
 	],
 
 	config: {
 		tabBar: {
 			docked: 'bottom',
-			layout: {
-				pack: 'center'
-			}
-		},
-		defaults: {
-			html: 'placeholder text',
-			styleHtmlContent: true
 		},
 		items: [
-			{ xtype: 'homecard' },
-			{ xtype: 'settingscard' }
+			{ 
+				xtype: 'card_home'
+			},
+			{ 
+				xtype: 'card_settings'
+			}
 		]	
 	}
 })

@@ -1,28 +1,24 @@
-Ext.define('Controller.view.Home', {
+Ext.define('Autohome.view.Home', {
 	extend: 'Ext.tab.Panel',
-	xtype: 'homecard',
+	xtype: 'card_home',
 	requires: [
-		'Controller.view.home.Controller',
-		'Controller.view.home.Computer'
+		'Autohome.view.home.Arduino',
+		'Autohome.view.home.Windows',
+		'Autohome.view.home.Linux'
 	],
 
 	config: {
 		title: 'Home',
 		iconCls: 'home',
-		defaults: {
-			styleHtmlContent: true
-		},
 		items: [
 			{ 
-				xtype: 'homecontrollercard' 
+				xtype: 'card_home_arduino' 
 			},
 			{ 
-				xtype: 'homecomputercard',
-				title: 'Windows'
+				xtype: 'card_home_windows'
 			},
 			{ 
-				xtype: 'homecomputercard',
-				title: 'Linux'
+				xtype: 'card_home_linux'
 			}
 		]
 	}
