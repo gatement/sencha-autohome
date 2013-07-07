@@ -18,11 +18,15 @@ Ext.define('Autohome.controller.home.Windows', {
 
 	poweroff: function()
 	{
-		Ext.Msg.alert('power off');
+		var deviceType = 'windows';
+		var cmd = 'poweroff';
+		send_command(deviceType, cmd);
 	},
 
 	reboot: function()
 	{
-		Ext.Msg.alert('reboot');
+		var deviceType = 'windows';
+		var cmd = 'restart';
+		send_command(deviceType, cmd);
 	}
 });

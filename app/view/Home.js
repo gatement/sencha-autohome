@@ -11,15 +11,9 @@ Ext.define('Autohome.view.Home', {
 		title: 'Home',
 		iconCls: 'home',
 		items: [
-			{ 
-				xtype: 'card_home_arduino' 
-			},
-			{ 
-				xtype: 'card_home_windows'
-			},
-			{ 
-				xtype: 'card_home_linux'
-			}
+			{ xtype: 'card_home_arduino' },
+			{ xtype: 'card_home_windows' },
+			{ xtype: 'card_home_linux' }
 		]
 	}
 });

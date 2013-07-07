@@ -16,19 +16,20 @@ Ext.define('Autohome.view.home.Linux', {
 			{
 				itemId: "offline",
 				xtype: "container",
+				hidden: true,
 				padding: 10,
 				html: "<h2>offline</h2>"
 			},
 			{ 
 				itemId: "online",
-				hidden: true,
 				xtype: "container",
+				hidden: true,
 				padding: 10,
 				width: '100%',
 				defaults: { 
 					xtype: 'button',
 					margin: 10,
-					height: 50,
+					height: 60,
 					width: '90%',
 					ui: 'normal'
 				},

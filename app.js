@@ -29,8 +29,8 @@ var SessionKey = 'usr_sid';
 var sessionVal = null;
 var MyWebSocket = null;
 var myWebSocket = null;
-var GetUserSessionUrl = 'http://tp.wolf.com:8080/user/session/jsonp';
-var WebSocketUrl = "ws://tp.wolf.com:8080/device/socket";
+var GetUserSessionUrl = 'https://tools.johnson.uicp.net:88/user/session/jsonp';
+var WebSocketUrl = "wss://tools.johnson.uicp.net:88/device/socket";
 
 function login_success(sessionId)
 {
@@ -43,6 +43,107 @@ function login_success(sessionId)
 	
 	socket_init();
 	socket_connect();
+}
+
+//============ helpers ======================================================================
+function update_arduino(data, animation)
+{
+	offlineContainer = Ext.ComponentQuery.query('card_home_arduino #offline')[0];
+	onlineContainer = Ext.ComponentQuery.query('card_home_arduino #online')[0];
+
+	if(data.online)
+	{
+		offlineContainer.hide(animation);
+		onlineContainer.show(animation);
+
+		windowspcBtn = Ext.ComponentQuery.query('card_home_arduino #windowspc')[0];
+		switch2Btn = Ext.ComponentQuery.query('card_home_arduino #switch2')[0];
+		switch3Btn = Ext.ComponentQuery.query('card_home_arduino #switch3')[0];
+		
+		if(data.values.switch1 === 'on')
+		{
+			windowspcBtn.setBadgeText('on');
+		}
+		else
+		{
+			windowspcBtn.setBadgeText(null);
+		}
+
+		if(data.values.switch2 === 'on')
+		{
+			switch2Btn.setBadgeText('on');
+		}
+		else
+		{
+			switch2Btn.setBadgeText(null);
+		}
+
+		if(data.values.switch3 === 'on')
+		{
+			switch3Btn.setBadgeText('on');
+		}
+		else
+		{
+			switch3Btn.setBadgeText(null);
+		}
+	}
+	else
+	{
+		offlineContainer.show(animation);
+		onlineContainer.hide(animation);
+	}
+}
+
+function update_windows(data, animation)
+{
+	offlineContainer = Ext.ComponentQuery.query('card_home_windows #offline')[0];
+	onlineContainer = Ext.ComponentQuery.query('card_home_windows #online')[0];
+
+	if(data.online)
+	{
+		offlineContainer.hide(animation);
+		onlineContainer.show(animation);
+	}
+	else
+	{
+		offlineContainer.show(animation);
+		onlineContainer.hide(animation);
+	}
+}
+
+function update_linux(data, animation)
+{
+	offlineContainer = Ext.ComponentQuery.query('card_home_linux #offline')[0];
+	onlineContainer = Ext.ComponentQuery.query('card_home_linux #online')[0];
+
+	if(data.online)
+	{
+		offlineContainer.hide(animation);
+		onlineContainer.show(animation);
+	}
+	else
+	{
+		offlineContainer.show(animation);
+		onlineContainer.hide(animation);
+	}
+}
+
+function get_device_id(deviceType)
+{
+	switch(deviceType)
+	{
+		case 'arduino':
+			return '000000000002';
+			break;
+		case 'windows':
+			return '000000000003';
+			break;
+		case 'linux':
+			return '000000000004';
+			break;
+		default:
+			return '';
+	}
 }
 
 //============ web socket operations ===========================================================
@@ -77,19 +178,18 @@ function list_devices()
 
 function list_devices_success(data) 
 {
-	debugger;
 	for(var i=0; i< data.length; i++)
 	{
 		switch(data[i].type)
 		{
 			case "arduino":
-				update_arduino(data[i]);
+				update_arduino(data[i], false);
 				break;
 			case "windows":
-				update_windows(data[i]);
+				update_windows(data[i], false);
 				break;
 			case "linux":
-				update_linux(data[i]);
+				update_linux(data[i], false);
 				break;
 		}
 	}
@@ -98,6 +198,62 @@ function list_devices_success(data)
 function list_devices_error(data) 
 {
 	Ext.Msg.alert(data);
+}
+
+function update_switch_status(deviceType, switchId, status) 
+{
+	var deviceId = get_device_id(deviceType);
+	var msg = {
+		cmd: "update_switch_status",
+		sid: window.sessionVal,
+		data: {"device_id": deviceId, "switch_id": switchId, "status": status}
+	};
+	this.socket_send_msg(msg);
+}
+
+function update_switch_status_success(data) 
+{
+}
+
+function update_switch_status_error(data) 
+{			
+	Ext.Msg.alert(data);
+}
+
+function send_command(deviceType, cmd) 
+{
+	var deviceId = get_device_id(deviceType);
+	var msg = {
+		cmd: "send_command",
+		sid: window.sessionVal,
+		data: {"device_id": deviceId, "cmd": cmd}
+	};
+	socket_send_msg(msg);
+}
+
+function send_command_success(data) 
+{
+}
+
+function send_command_error(data) 
+{			
+	Ext.Msg.alert(data);
+}
+
+function device_status_changed_success(data) 
+{
+	switch(data.type)
+	{
+		case "arduino":
+			update_arduino(data, true);
+			break;
+		case "windows":
+			update_windows(data, true);
+			break;
+		case "linux":
+			update_linux(data, true);
+			break;
+	}
 }
 
 //============ web socket ======================================================================

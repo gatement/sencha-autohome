@@ -18,11 +18,15 @@ Ext.define('Autohome.controller.home.Linux', {
 
 	poweroff: function()
 	{
-		Ext.Msg.alert('power off');
+		var deviceType = 'linux';
+		var cmd = 'poweroff';
+		send_command(deviceType, cmd);
 	},
 
 	reboot: function()
 	{
-		Ext.Msg.alert('reboot');
+		var deviceType = 'linux';
+		var cmd = 'restart';
+		send_command(deviceType, cmd);
 	}
 });

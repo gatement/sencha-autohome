@@ -22,24 +22,43 @@ Ext.define('Autohome.controller.home.Arduino', {
 
 	tungle_windowspc: function(target)
 	{
+		var status = 1;
 		var badgeText = target.getBadgeText();
 		if(badgeText)
 		{
-			target.setBadgeText(null);
+			status = 0;
 		}
-		else
+
+		var deviceType = 'arduino';
+		var switchId = '1';
+		update_switch_status(deviceType, switchId, status);
+	},
+
+	tungle_switch2: function(target)
+	{
+		var status = 1;
+		var badgeText = target.getBadgeText();
+		if(badgeText)
 		{
-			target.setBadgeText('on');
+			status = 0;
 		}
+
+		var deviceType = 'arduino';
+		var switchId = '2';
+		update_switch_status(deviceType, switchId, status);
 	},
 
-	tungle_switch2: function()
+	tungle_switch3: function(target)
 	{
-		Ext.Msg.alert('tungle switch2');
-	},
+		var status = 1;
+		var badgeText = target.getBadgeText();
+		if(badgeText)
+		{
+			status = 0;
+		}
 
-	tungle_switch3: function()
-	{
-		Ext.Msg.alert('tungle switch3');
+		var deviceType = 'arduino';
+		var switchId = '3';
+		update_switch_status(deviceType, switchId, status);
 	}
 });
