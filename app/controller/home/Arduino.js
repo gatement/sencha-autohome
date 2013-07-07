@@ -9,18 +9,18 @@ Ext.define('Autohome.controller.home.Arduino', {
 		},
 		control: {
 			windowspcBtn: {
-				tap: 'tungle_windowspc'
+				tap: 'toggle_windowspc'
 			},
 			switch2Btn: {
-				tap: 'tungle_switch2'
+				tap: 'toggle_switch2'
 			},
 			switch3Btn: {
-				tap: 'tungle_switch3'
+				tap: 'toggle_switch3'
 			},
 		},
 	},
 
-	tungle_windowspc: function(target)
+	toggle_windowspc: function(target)
 	{
 		var status = 1;
 		var badgeText = target.getBadgeText();
@@ -34,7 +34,7 @@ Ext.define('Autohome.controller.home.Arduino', {
 		update_switch_status(deviceType, switchId, status);
 	},
 
-	tungle_switch2: function(target)
+	toggle_switch2: function(target)
 	{
 		var status = 1;
 		var badgeText = target.getBadgeText();
@@ -48,7 +48,7 @@ Ext.define('Autohome.controller.home.Arduino', {
 		update_switch_status(deviceType, switchId, status);
 	},
 
-	tungle_switch3: function(target)
+	toggle_switch3: function(target)
 	{
 		var status = 1;
 		var badgeText = target.getBadgeText();
