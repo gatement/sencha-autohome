@@ -48,8 +48,11 @@ function login_success(sessionId)
 //============ helpers ======================================================================
 function update_arduino(data, animation)
 {
+	titlebar = Ext.ComponentQuery.query('card_home_arduino titlebar')[0];
 	offlineContainer = Ext.ComponentQuery.query('card_home_arduino #offline')[0];
 	onlineContainer = Ext.ComponentQuery.query('card_home_arduino #online')[0];
+
+	titlebar.setTitle(data.name);
 
 	if(data.online)
 	{
@@ -96,8 +99,11 @@ function update_arduino(data, animation)
 
 function update_windows(data, animation)
 {
+	titlebar = Ext.ComponentQuery.query('card_home_windows titlebar')[0];
 	offlineContainer = Ext.ComponentQuery.query('card_home_windows #offline')[0];
 	onlineContainer = Ext.ComponentQuery.query('card_home_windows #online')[0];
+
+	titlebar.setTitle(data.name);
 
 	if(data.online)
 	{
@@ -113,8 +119,11 @@ function update_windows(data, animation)
 
 function update_linux(data, animation)
 {
+	titlebar = Ext.ComponentQuery.query('card_home_linux titlebar')[0];
 	offlineContainer = Ext.ComponentQuery.query('card_home_linux #offline')[0];
 	onlineContainer = Ext.ComponentQuery.query('card_home_linux #online')[0];
+
+	titlebar.setTitle(data.name);
 
 	if(data.online)
 	{

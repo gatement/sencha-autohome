@@ -13,6 +13,11 @@ Ext.define('Autohome.view.home.Linux', {
 			styleHtmlContent: true
 	   	},
 		items: [
+			{ 
+				xtype: 'titlebar',
+				docked: 'top',
+				ui: 'light'
+			},
 			{
 				itemId: "offline",
 				xtype: "container",

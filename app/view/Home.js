@@ -1,5 +1,5 @@
 Ext.define('Autohome.view.Home', {
-	extend: 'Ext.tab.Panel',
+	extend: 'Ext.Carousel',
 	xtype: 'card_home',
 	requires: [
 		'Autohome.view.home.Arduino',
@@ -10,6 +10,7 @@ Ext.define('Autohome.view.Home', {
 	config: {
 		title: 'Home',
 		iconCls: 'home',
+		defaults: { styleHtmlContent: true },
 		items: [
 			{ xtype: 'card_home_arduino' },
 			{ xtype: 'card_home_windows' },

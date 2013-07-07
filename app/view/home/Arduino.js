@@ -13,6 +13,11 @@ Ext.define('Autohome.view.home.Arduino', {
 			styleHtmlContent: true
 	   	},
 		items: [
+			{ 
+				xtype: 'titlebar',
+				docked: 'top',
+				ui: 'light'
+			},
 			{
 				itemId: "offline",
 				xtype: "container",
