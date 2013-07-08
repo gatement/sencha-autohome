@@ -23,7 +23,7 @@ Ext.define('Autohome.controller.Login', {
 		else
 		{
 			Ext.data.JsonP.request({
-				url: window.GetUserSessionUrl,
+				url: settings.GetUserSessionUrl,
 				callbackKey: 'callback',
 				disableCaching: true,
 				params: {
@@ -33,7 +33,7 @@ Ext.define('Autohome.controller.Login', {
 				success: function(result, request) {
 					if(result.success)
 					{
-						window.login_success(result.data);
+						main.login_success(result.data);
 					}
 					else
 					{

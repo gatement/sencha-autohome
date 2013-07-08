@@ -20,13 +20,13 @@ Ext.define('Autohome.controller.home.Linux', {
 	{
 		var deviceType = 'linux';
 		var cmd = 'poweroff';
-		send_command(deviceType, cmd);
+		main.send_command(deviceType, cmd);
 	},
 
 	reboot: function()
 	{
 		var deviceType = 'linux';
 		var cmd = 'restart';
-		send_command(deviceType, cmd);
+		main.send_command(deviceType, cmd);
 	}
 });

@@ -10,7 +10,10 @@ Ext.define('Autohome.view.Home', {
 	config: {
 		title: 'Home',
 		iconCls: 'home',
-		defaults: { styleHtmlContent: true },
+		defaults: { 
+			styleHtmlContent: true,
+			scrollable: false
+		},
 		items: [
 			{ xtype: 'card_home_arduino' },
 			{ xtype: 'card_home_windows' },

@@ -20,13 +20,13 @@ Ext.define('Autohome.controller.home.Windows', {
 	{
 		var deviceType = 'windows';
 		var cmd = 'poweroff';
-		send_command(deviceType, cmd);
+		main.send_command(deviceType, cmd);
 	},
 
 	reboot: function()
 	{
 		var deviceType = 'windows';
 		var cmd = 'restart';
-		send_command(deviceType, cmd);
+		main.send_command(deviceType, cmd);
 	}
 });

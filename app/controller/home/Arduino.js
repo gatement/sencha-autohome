@@ -31,7 +31,7 @@ Ext.define('Autohome.controller.home.Arduino', {
 
 		var deviceType = 'arduino';
 		var switchId = '1';
-		update_switch_status(deviceType, switchId, status);
+		main.update_switch_status(deviceType, switchId, status);
 	},
 
 	toggle_switch2: function(target)
@@ -45,7 +45,7 @@ Ext.define('Autohome.controller.home.Arduino', {
 
 		var deviceType = 'arduino';
 		var switchId = '2';
-		update_switch_status(deviceType, switchId, status);
+		main.update_switch_status(deviceType, switchId, status);
 	},
 
 	toggle_switch3: function(target)
@@ -59,6 +59,6 @@ Ext.define('Autohome.controller.home.Arduino', {
 
 		var deviceType = 'arduino';
 		var switchId = '3';
-		update_switch_status(deviceType, switchId, status);
+		main.update_switch_status(deviceType, switchId, status);
 	}
 });
