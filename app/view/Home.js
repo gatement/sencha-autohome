@@ -8,7 +8,7 @@ Ext.define('Autohome.view.Home', {
 	],
 
 	config: {
-		title: 'Home',
+		title: 'HOME',
 		iconCls: 'home',
 		defaults: { 
 			styleHtmlContent: true,

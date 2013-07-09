@@ -3,7 +3,7 @@ Ext.define('Autohome.view.Login', {
 	xtype: 'card_login',
 
 	config: {
-		title: 'Login',
+		title: 'LOGIN',
 		iconCls: 'user',
 		fullscreen: true,
 		layout: {
@@ -13,12 +13,12 @@ Ext.define('Autohome.view.Login', {
 		items: [
 			{
 				xtype: 'label',
-				html: '<h2>Please Login</h2>',
+				html: '<h2>PLEASE LOGIN</h2>',
 				margin: 15
 			},
 			{
 				xtype: 'textfield',
-				label: 'Name',
+				label: 'NAME',
 				name: 'username',
 				placeHolder: 'Enter your name',
 				autoComplete: true,
@@ -26,7 +26,7 @@ Ext.define('Autohome.view.Login', {
 			},
 			{
 				xtype: 'passwordfield',
-				label: 'Password',
+				label: 'PASSWORD',
 				name: 'password',
 				placeHolder: 'Enter your password',
 				width: '100%'
@@ -34,7 +34,7 @@ Ext.define('Autohome.view.Login', {
 			{
 				itemId: 'login',
 				xtype: 'button',
-				text: 'Login',
+				text: 'LOGIN',
 				margin: 10,
 				width: '90%',
 				height: 50,

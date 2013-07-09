@@ -3,7 +3,7 @@ Ext.define('Autohome.view.Settings', {
 	xtype: 'card_settings',
 
 	config: {
-		title: 'Settings',
+		title: 'SETTINGS',
 		iconCls: 'settings',
 		html: 'placeholder text'
 	}

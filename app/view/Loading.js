@@ -3,7 +3,7 @@ Ext.define('Autohome.view.Loading', {
 	xtype: 'card_loading',
 
 	config: {
-		title: 'Home',
+		title: 'HOME',
 		iconCls: 'home',
 		defaults: { 
 			styleHtmlContent: true
