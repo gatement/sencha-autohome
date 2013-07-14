@@ -15,20 +15,17 @@ var main = {
 	//============ helpers ======================================================================
 	update_arduino: function(data, animation)
 	{
-		titlebar = Ext.ComponentQuery.query('card_home_arduino titlebar')[0];
-		offlineContainer = Ext.ComponentQuery.query('card_home_arduino #offline')[0];
-		onlineContainer = Ext.ComponentQuery.query('card_home_arduino #online')[0];
-
-		titlebar.setTitle(data.name);
+		var offlineContainer = Ext.ComponentQuery.query('card_arduino #offline')[0];
+		var onlineContainer = Ext.ComponentQuery.query('card_arduino #online')[0];
 
 		if(data.online)
 		{
 			offlineContainer.hide(animation);
 			onlineContainer.show(animation);
 
-			windowspcBtn = Ext.ComponentQuery.query('card_home_arduino #windowspc')[0];
-			switch2Btn = Ext.ComponentQuery.query('card_home_arduino #switch2')[0];
-			switch3Btn = Ext.ComponentQuery.query('card_home_arduino #switch3')[0];
+			windowspcBtn = Ext.ComponentQuery.query('card_arduino #windowspc')[0];
+			switch2Btn = Ext.ComponentQuery.query('card_arduino #switch2')[0];
+			switch3Btn = Ext.ComponentQuery.query('card_arduino #switch3')[0];
 			
 			if(data.values.switch1 === 'on')
 			{
@@ -66,11 +63,8 @@ var main = {
 
 	update_windows: function(data, animation)
 	{
-		titlebar = Ext.ComponentQuery.query('card_home_windows titlebar')[0];
-		offlineContainer = Ext.ComponentQuery.query('card_home_windows #offline')[0];
-		onlineContainer = Ext.ComponentQuery.query('card_home_windows #online')[0];
-
-		titlebar.setTitle(data.name);
+		var offlineContainer = Ext.ComponentQuery.query('card_windows #offline')[0];
+		var onlineContainer = Ext.ComponentQuery.query('card_windows #online')[0];
 
 		if(data.online)
 		{
@@ -86,11 +80,8 @@ var main = {
 
 	update_linux: function(data, animation)
 	{
-		titlebar = Ext.ComponentQuery.query('card_home_linux titlebar')[0];
-		offlineContainer = Ext.ComponentQuery.query('card_home_linux #offline')[0];
-		onlineContainer = Ext.ComponentQuery.query('card_home_linux #online')[0];
-
-		titlebar.setTitle(data.name);
+		var offlineContainer = Ext.ComponentQuery.query('card_linux #offline')[0];
+		var onlineContainer = Ext.ComponentQuery.query('card_linux #online')[0];
 
 		if(data.online)
 		{
@@ -144,6 +135,18 @@ var main = {
 
 	list_devices: function()
 	{
+		Ext.ComponentQuery.query('card_arduino #loading')[0].show();
+		Ext.ComponentQuery.query('card_arduino #online')[0].hide();
+		Ext.ComponentQuery.query('card_arduino #offline')[0].hide();
+		
+		Ext.ComponentQuery.query('card_windows #loading')[0].show();
+		Ext.ComponentQuery.query('card_windows #online')[0].hide();
+		Ext.ComponentQuery.query('card_windows #offline')[0].hide();
+
+		Ext.ComponentQuery.query('card_linux #loading')[0].show();
+		Ext.ComponentQuery.query('card_linux #online')[0].hide();
+		Ext.ComponentQuery.query('card_linux #offline')[0].hide();
+
 		var msg = {
 			cmd: "list_devices",
 			sid: settings.sessionVal,
@@ -154,6 +157,10 @@ var main = {
 
 	list_devices_success: function(data) 
 	{
+		Ext.ComponentQuery.query('card_arduino #loading')[0].hide();
+		Ext.ComponentQuery.query('card_windows #loading')[0].hide();
+		Ext.ComponentQuery.query('card_linux #loading')[0].hide();
+
 		for(var i=0; i< data.length; i++)
 		{
 			switch(data[i].type)
@@ -169,10 +176,6 @@ var main = {
 					break;
 			}
 		};
-
-		Ext.ComponentQuery.query('card_home')[0].show();
-		Ext.ComponentQuery.query('card_main').removeAt(0);
-		Ext.ComponentQuery.query('card_loading')[0].destroy();
 	},
 
 	list_devices_error: function(data) 
@@ -243,7 +246,7 @@ var main = {
 		if (!settings.MyWebSocket && window.MozWebSocket) settings.MyWebSocket = window.MozWebSocket;
 		if (!settings.MyWebSocket)
 		{
-			Ext.Msg.alert("Your browser is not supported. Please use Firefox or Google Chrome.");
+			Ext.Msg.alert("Your browser is not supported websocket. Firefox or Chrome is recommended.");
 		}
 	},
 

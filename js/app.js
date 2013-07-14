@@ -12,20 +12,30 @@ function app_start() {
 		name: "Autohome",
 
 		requires: [
-			'Autohome.view.Login',
-			'Autohome.view.Main'
+		'Autohome.view.Login',
+		'Autohome.view.Main',
+		'Autohome.view.Arduino',
+		'Autohome.view.Windows',
+		'Autohome.view.Linux',
+		'Autohome.view.Settings'
 		],
 
 		views: [
-			'Main',
-			'Login'
+		'Login',
+		'Main',
+		'Arduino',
+		'Windows',
+		'Linux',
+		'Settings'
 		],
 
 		controllers: [
-			'Login',
-			'home.Arduino', 
-			'home.Windows', 
-			'home.Linux'
+		'Login',
+		'Main',
+		'Arduino', 
+		'Windows', 
+		'Linux',
+		'Settings'
 		],
 
 		launch: function() {
