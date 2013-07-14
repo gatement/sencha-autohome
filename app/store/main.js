@@ -8,8 +8,15 @@ var main = {
 			xclass: 'Autohome.view.Main' 
 		});
 		
-		main.socket_init();
-		main.socket_connect();
+		if(localStorage.conn_type == undefined || localStorage.conn_type == 'jsonp')
+		{
+			main.list_devices();
+		}
+		else
+		{
+			main.socket_init();
+			main.socket_connect();
+		}
 	},
 
 	//============ helpers ======================================================================
@@ -113,7 +120,19 @@ var main = {
 		}
 	},
 
-	//============ web socket operations ===========================================================
+	send_msg: function(msgObj)
+	{
+		if(localStorage.conn_type == undefined || localStorage.conn_type == 'jsonp')
+		{
+			main.jsonp_send_msg(msgObj);
+		}
+		else
+		{
+			main.socket_send_msg(msgObj);
+		}
+	},
+
+	//============ operations ===========================================================
 	update_socket: function() 
 	{
 		var msg = {
@@ -152,7 +171,7 @@ var main = {
 			sid: settings.sessionVal,
 			data: ""
 		};
-		this.socket_send_msg(msg);
+		this.send_msg(msg);
 	},
 
 	list_devices_success: function(data) 
@@ -191,7 +210,7 @@ var main = {
 			sid: settings.sessionVal,
 			data: {"device_id": deviceId, "switch_id": switchId, "status": status}
 		};
-		main.socket_send_msg(msg);
+		main.send_msg(msg);
 	},
 
 	update_switch_status_success: function(data) 
@@ -211,7 +230,7 @@ var main = {
 			sid: settings.sessionVal,
 			data: {"device_id": deviceId, "cmd": cmd}
 		};
-		main.socket_send_msg(msg);
+		main.send_msg(msg);
 	},
 
 	send_command_success: function(data) 
@@ -236,6 +255,61 @@ var main = {
 			case "linux":
 				main.update_linux(data, true);
 				break;
+		}
+	},
+	
+	//============ jsonp ===========================================================================
+	jsonp_send_msg: function(msgObj)
+	{
+		var msg = window.JSON.stringify(msgObj);
+
+		Ext.data.JsonP.request({
+			url: settings.GetUserSessionUrl,
+			callbackKey: 'callback',
+			disableCaching: true,
+			params: {
+				id: values.username,
+				pwd: values.password
+			},
+			success: function(result, request) {
+				if(result.success)
+				{
+					if(typeof(Storage) == 'undefined')
+					{
+						Ext.Msg.alert('Your browser is not supported saving the credentials. Firefox or Chrome is recommended.');
+					}
+					else
+					{
+						if(me.getRemNameCheck().isChecked())
+						{
+							window.localStorage.login_name = values.username;
+						}
+						else
+						{
+							window.localStorage.removeItem('login_name');
+						}
+						if(me.getRemPwdCheck().isChecked())
+						{
+							window.localStorage.login_pwd = values.password;
+						}
+						else
+						{
+							window.localStorage.removeItem('login_pwd');
+						}
+					}
+					main.login_success(result.data);
+				}
+				else
+				{
+					Ext.Msg.alert('wrong name and password.');
+				}
+			}
+		});
+
+		// log
+		if(console && console.log)
+		{
+			console.log("sending: %o", msgObj);
 		}
 	},
 
@@ -306,7 +380,7 @@ var main = {
 			
 			if(sendResult === false)
 			{
-				window.setTimeout(function(){socket_send_msg(msgObj);}, 5000);
+				window.setTimeout(function(){main.socket_send_msg(msgObj);}, 5000);
 				if(console && console.log)
 				{
 					console.log("Communication error, is retrying...");
@@ -319,7 +393,7 @@ var main = {
 			{
 				console.log("Communication error, is retrying...");
 			}
-			window.setTimeout(function(){socket_send_msg(msgObj);}, 5000);
+			window.setTimeout(function(){main.socket_send_msg(msgObj);}, 5000);
 		}
 
 		// log
