@@ -27,15 +27,15 @@ Ext.define('Autohome.controller.Login', {
 		else
 		{
 			Ext.data.JsonP.request({
-				url: settings.GetUserSessionUrl,
+				url: settings.JsonpUrls['get_user_session'],
 				callbackKey: 'callback',
 				disableCaching: true,
 				params: {
 					id: values.username,
 					pwd: values.password
 				},
-				success: function(result, request) {
-					if(result.success)
+				success: function(response, request) {
+					if(response.success)
 					{
 						if(typeof(Storage) == 'undefined')
 						{
@@ -60,12 +60,15 @@ Ext.define('Autohome.controller.Login', {
 								window.localStorage.removeItem('login_pwd');
 							}
 						}
-						main.login_success(result.data);
+						main.login_success(response.data);
 					}
 					else
 					{
 						Ext.Msg.alert('wrong name and password.');
 					}
+				},
+				failure: function() {
+					Ext.Msg.alert('authenticate user failed.');
 				}
 			});
 		}

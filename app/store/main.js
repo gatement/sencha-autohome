@@ -261,48 +261,29 @@ var main = {
 	//============ jsonp ===========================================================================
 	jsonp_send_msg: function(msgObj)
 	{
-		var msg = window.JSON.stringify(msgObj);
+		var data = window.JSON.stringify(msgObj.data);
+		var url = settings.JsonpUrls[msgObj.cmd];
 
 		Ext.data.JsonP.request({
-			url: settings.GetUserSessionUrl,
+			url: url,
 			callbackKey: 'callback',
 			disableCaching: true,
 			params: {
-				id: values.username,
-				pwd: values.password
+				sid: msgObj.sid,
+				data: data
 			},
-			success: function(result, request) {
-				if(result.success)
+			success: function(response, request) {
+				if(response.success)
 				{
-					if(typeof(Storage) == 'undefined')
-					{
-						Ext.Msg.alert('Your browser is not supported saving the credentials. Firefox or Chrome is recommended.');
-					}
-					else
-					{
-						if(me.getRemNameCheck().isChecked())
-						{
-							window.localStorage.login_name = values.username;
-						}
-						else
-						{
-							window.localStorage.removeItem('login_name');
-						}
-						if(me.getRemPwdCheck().isChecked())
-						{
-							window.localStorage.login_pwd = values.password;
-						}
-						else
-						{
-							window.localStorage.removeItem('login_pwd');
-						}
-					}
-					main.login_success(result.data);
+					main[msgObj.cmd + "_success"].apply(this, [response.data]);
 				}
 				else
 				{
-					Ext.Msg.alert('wrong name and password.');
+					main[msgObj.cmd + "_error"].apply(this, [response.data]);
 				}
+			},
+			failure: function() {
+				Ext.Msg.alert('operation failed.');
 			}
 		});
 
@@ -362,7 +343,7 @@ var main = {
 			{
 				console.log("Socket is closed, is reconnecting...");
 			}
-			window.setTimeout(function(){socket_connect();}, 6000);
+			window.setTimeout(function(){main.socket_connect();}, 6000);
 		};
 		
 		settings.myWebSocket = new settings.MyWebSocket(settings.WebSocketUrl);
